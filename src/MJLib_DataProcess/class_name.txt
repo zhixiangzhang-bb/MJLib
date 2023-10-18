@@ -1,0 +1,14 @@
+时域信号处理
+1. ACFsum 时域自相关和
+2. DataMean 均值
+3.DataRMS 均方根值
+4.DataH 信息熵
+5.DataXpp 峰峰值
+6.DataXppm 均值峰峰值
+7.DataVar 方差
+8.DataPth 分位概率
+
+
+频域信号处理
+1.均方频率
+2.重心频率
