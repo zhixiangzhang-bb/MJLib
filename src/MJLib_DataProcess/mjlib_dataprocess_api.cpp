@@ -9,7 +9,6 @@ extern "C" {
 
 
 
-
 	/**
 	 * @brief 数据处理集合
 	 * @param value 数据输入
@@ -18,8 +17,8 @@ extern "C" {
 	 * @return 返回状态
 	*/
 	int CavitationDataProcess(float* value, int length, float* result)
-	{						
-		
+	{
+
 		std::vector<float> arry(value, value + length);
 
 		//时域处理队列
@@ -40,6 +39,7 @@ extern "C" {
 			result[cout] = var->ReturnDataProcessResult(arry);
 			cout++;
 		}
+
 
 		return 1;
 	}
@@ -68,13 +68,12 @@ extern "C" {
 	float ACFsum(float* value, int length)
 	{
 		//数组长度小于0直接返回错误状态
-		if (length <= 0)
 		{
 			return NAN;
 		}
-		mjlib::ACFsum* acfsum = new  mjlib::ACFsum;
 		try
 		{
+			mjlib::ACFsum* acfsum = new mjlib::ACFsum;
 			std::vector<float> array(value, value + length);
 			auto result = acfsum->ReturnDataProcessResult(array);
 			delete acfsum;
@@ -118,7 +117,7 @@ extern "C" {
 		{
 			mjlib::DataPsdMSF* PsdMsf = new mjlib::DataPsdMSF;
 			std::vector<float> array(value, value + length);
-			auto result=PsdMsf->ReturnDataProcessResult(array);
+			auto result = PsdMsf->ReturnDataProcessResult(array);
 			delete PsdMsf;
 			return result;
 		}
@@ -160,6 +159,7 @@ extern "C" {
 
 
 
+
 	/**
 	 * @brief 计算均方根值
 	 * @param value 数据指针
@@ -181,8 +181,8 @@ extern "C" {
 		}
 		catch (const std::exception& e)
 		{
-			return NAN;
-		}
+		return NAN;
+	}
 
 	}
 

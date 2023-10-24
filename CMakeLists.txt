@@ -30,7 +30,6 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_DataProcess)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_FileIO)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_SVM)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Vision)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_BasicsSupport)
 
 
 
@@ -51,6 +50,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_Vision)
 add_executable (${PROJECT_NAME} 
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Test.cpp
 )		
+
 
 
 
