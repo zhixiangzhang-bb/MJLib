@@ -6,17 +6,16 @@
 
 
 int main()
-{	
+{
 	//读取数据文件
 	auto arry=mjlib::ReadTxtData2Float("D:/modeltest/waterListen_23-05-30_1415_1.lvm",23);
-	float reault[8];//浮点输入
 
-	auto state=CavitationDataProcess(arry.data(), arry.size(), reault);//
 
 	for (size_t i = 0; i < 8; i++)
 	{
 		std::cout << reault[i] << std::endl;
 	}
+
 
 /*
 	std::vector<float> test = { 10,20,30,40,-10,-20,-30,-40};
@@ -45,6 +44,7 @@ int main()
 	float PsdFC = f_psd.dot(Psd)/ PsdSum;
 	std::cout << PsdFC << std::endl;
 */
+
 
 	return 0;
 }

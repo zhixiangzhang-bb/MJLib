@@ -1,5 +1,6 @@
 ﻿
 #include "mjlib_timedomain.h"
+#include <numeric>
 
 
 
@@ -36,9 +37,9 @@ namespace mjlib {
     {
         Eigen::Map<Eigen::VectorXf> data(signal.data(), signal.size());
       
+        mjlib::DataVar* Var = new mjlib::DataVar;
         int n = data.size();
         Eigen::VectorXf result(nlags + 1);
-        std::shared_ptr<DataVar> Var(new DataVar);
         float var= Var->ReturnDataProcessResult(signal);
         for (int k = 0; k <= nlags; ++k) {
             result(k) = (data.head(n - k).array() * data.tail(n - k).array()).sum() / (n - k) / var;

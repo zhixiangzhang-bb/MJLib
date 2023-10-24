@@ -6,6 +6,8 @@
 
 namespace mjlib {
 
+
+
 	/**
 	 * @brief 根据采样频率计算功率谱密度
 	 * @param signal 输入数组
@@ -14,6 +16,7 @@ namespace mjlib {
 	*/
 	MJLib_DataProcess_API std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate);
 	
+
 
 
 	/*****************************************************************
