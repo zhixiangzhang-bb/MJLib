@@ -37,7 +37,8 @@ namespace mjlib {
     {
         Eigen::Map<Eigen::VectorXf> data(signal.data(), signal.size());
       
-        mjlib::DataVar* Var = new mjlib::DataVar;
+<<<<<<<<< Temporary merge branch 1
+
         int n = data.size();
         Eigen::VectorXf result(nlags + 1);
         float var= Var->ReturnDataProcessResult(signal);

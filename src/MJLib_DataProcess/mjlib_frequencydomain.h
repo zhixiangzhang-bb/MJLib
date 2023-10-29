@@ -17,8 +17,14 @@ namespace mjlib {
 	MJLib_DataProcess_API std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate);
 	
 
+<<<<<<<<< Temporary merge branch 1
 
 
+
+
+
+=========
+>>>>>>>>> Temporary merge branch 2
 	/*****************************************************************
 	* 类名称：均方频率
 	* 功能描述：

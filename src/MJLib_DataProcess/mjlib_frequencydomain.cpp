@@ -11,9 +11,16 @@ namespace mjlib {
 	 * @brief 根据采样频率计算功率谱密度
 	 * @param signal 输入数组
 	 * @param sampleRate 采样频率
+<<<<<<<<< Temporary merge branch 1
+	 * @return 返回频率和功率谱密度数组
 	*/
 	std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate)
 	{
+=========
+	 * @return 返回频率和功率谱密度数组，可内联
+	*/
+	inline std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate)
+	{			
 		
 		//傅里叶变换需要为双数，当为单数时进行补0操作
 		int size=signal.size();	
@@ -32,7 +39,16 @@ namespace mjlib {
 		int size = signal.size(); // 信号长度
 		Eigen::FFT<float> fft; // 创建FFT对象
 		Eigen::VectorXcf  spectrum; // 存储频域信号数据的向量
-		fft.fwd(spectrum, size);
+		spectrum=fft.fwd(vec); // 进行傅里叶变换
+
+		Eigen::VectorXf amplitude = spectrum.array().abs2() / size; // 计算幅值平方得到功率谱密度
+
+=========
+		Eigen::FFT<float> fft; // 创建FFT对象
+		Eigen::VectorXcf  spectrum; // 存储频域信号数据的向量
+
+		// 进行傅里叶变换，这里现在有点问
+		fft.fwd(spectrum,vec);
 
 		// 计算幅值平方得到功率谱密度，且只取前半部分
 		Eigen::VectorXf amplitude = spectrum.array().abs2() / size; // 计算幅值平方得到功率谱密度
@@ -42,6 +58,10 @@ namespace mjlib {
 		std::vector<float> freqVec(amplitude.data(), amplitude.data() + amplitude.size());
 		std::vector<float> powerSpecVec(frequency.data(), frequency.data() + frequency.size());
 
+<<<<<<<<< Temporary merge branch 1
+=========
+
+>>>>>>>>> Temporary merge branch 2
 		out.push_back(freqVec);
 		out.push_back(powerSpecVec);
 		return out;
