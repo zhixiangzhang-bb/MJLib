@@ -2,7 +2,7 @@
 #define OPENCV_CVCONFIG_H_INCLUDED
 
 /* OpenCV compiled as static or dynamic libs */
-/* #undef BUILD_SHARED_LIBS */
+#define BUILD_SHARED_LIBS
 
 /* OpenCV intrinsics optimized code */
 #define CV_ENABLE_INTRINSICS
@@ -11,10 +11,10 @@
 /* #undef CV_DISABLE_OPTIMIZATION */
 
 /* Compile for 'real' NVIDIA GPU architectures */
-#define CUDA_ARCH_BIN ""
+#define CUDA_ARCH_BIN " 50 52 60 61 70 75 80 86"
 
 /* NVIDIA GPU features are used */
-#define CUDA_ARCH_FEATURES ""
+#define CUDA_ARCH_FEATURES " 50 52 60 61 70 75 80 86"
 
 /* Compile for 'virtual' NVIDIA PTX architectures */
 #define CUDA_ARCH_PTX ""
@@ -29,16 +29,16 @@
 /* #undef HAVE_CLP */
 
 /* NVIDIA CUDA Runtime API*/
-/* #undef HAVE_CUDA */
+#define HAVE_CUDA
 
 /* NVIDIA CUDA Basic Linear Algebra Subprograms (BLAS) API*/
-/* #undef HAVE_CUBLAS */
+#define HAVE_CUBLAS
 
 /* NVIDIA CUDA Deep Neural Network (cuDNN) API*/
 /* #undef HAVE_CUDNN */
 
 /* NVIDIA CUDA Fast Fourier Transform (FFT) API*/
-/* #undef HAVE_CUFFT */
+#define HAVE_CUFFT
 
 /* DirectX */
 #define HAVE_DIRECTX
@@ -63,10 +63,10 @@
 #define HAVE_INTTYPES_H 1
 
 /* Intel Integrated Performance Primitives */
-/* #undef HAVE_IPP */
-/* #undef HAVE_IPP_ICV */
-/* #undef HAVE_IPP_IW */
-/* #undef HAVE_IPP_IW_LL */
+#define HAVE_IPP
+#define HAVE_IPP_ICV
+#define HAVE_IPP_IW
+#define HAVE_IPP_IW_LL
 
 /* JPEG-2000 codec */
 #define HAVE_OPENJPEG

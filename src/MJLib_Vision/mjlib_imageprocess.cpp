@@ -1,4 +1,6 @@
 ﻿#include "mjlib_imageprocess.h"
+#include "opencv2/freetype.hpp"
+
 
 
 namespace mjlib {
@@ -66,6 +68,87 @@ namespace mjlib {
 
 
 
+	/*****************************************************************
+	* 类名称：字幕类
+	* 功能描述：显示字幕信息
+	* 作者：zzx
+	* 创建日期：2023.6.23
+	* 最后修改：zzx
+	* 最后修改日期：
+	* 备注：
+	******************************************************************/
+
+
+	ImageSubTitle::ImageSubTitle(std::string* title, std::string* data) :offsetx(50), offsety(50), cR(255), cG(0), cB(0), fontheight(10), fontpath("C:/Windows/Fonts/simsun.ttc"), title(title), data(data)
+	{
+
+	}
+
+
+
+	//设置字体格式	
+	void ImageSubTitle::SetFontParam(uint offsetx, uint offsety, uint cR, uint cG, uint cB, uint fontheight)
+	{
+		this->offsetx = offsetx;
+		this->offsety = offsety;
+		this->cR = cR;
+		this->cG = cG;
+		this->cB = cB;
+		this->fontheight = fontheight;
+	}
+
+
+	//设置文本，分为标题和数据，共享内存的方式
+	void ImageSubTitle::SetTitle(std::string* title, std::string* data)
+	{
+		this->title = title;
+		this->data = data;
+	}
+
+
+	//叠加字幕的处理方式
+	cv::Mat ImageSubTitle::processImage(const cv::Mat& image)
+	{
+		cv::Ptr<cv::freetype::FreeType2> font;
+		font = cv::freetype::createFreeType2();
+		font->loadFontData(fontpath, 0);
+		std::string str;
+		if (title == nullptr && data == nullptr) {
+			str = "";
+		}
+		else if (title == nullptr) {
+			str = *data;
+		}
+		else if (data == nullptr) {
+			str = *title;
+		}
+		else {
+			str = *title + "\n" + *data;
+		}
+
+		int x = this->offsetx;
+		int y = this->offsety;
+		int lineSpacing = 10; // 行间距
+		std::istringstream iss(str);
+		std::string line;
+		while (std::getline(iss, line)) {
+			cv::Size textSize;
+			int baseline;
+			textSize = font->getTextSize(line, fontheight, 0, &baseline);
+			font->putText(image, line, cv::Point(x, y), fontheight, cv::Scalar(cB, cG, cR), cv::FILLED, cv::LINE_AA, false);
+			y += textSize.height + lineSpacing;
+		}
+
+		//font->putText(image, str, cv::Point(this->offsetx, this->offsety), fontheight, CV_RGB(cR, cG, cB), cv::FILLED, cv::LINE_AA, true);
+		return image;
+	}
+
+
+	//返回处理名称
+	std::string ImageSubTitle::ReturnName()
+	{
+		return "字幕添加";
+	}
 
 
 	/*****************************************************************

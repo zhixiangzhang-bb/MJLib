@@ -4,7 +4,6 @@
 
 
 
-
 namespace mjlib {
 
 
@@ -80,6 +79,62 @@ namespace mjlib {
 		int yEnd;
 
 	};
+
+
+
+	/*****************************************************************
+	* 类名称：字幕类
+	* 功能描述：显示字幕信息
+	* 作者：zzx
+	* 创建日期：2023.6.23
+	* 最后修改：zzx
+	* 最后修改日期：
+	* 备注：
+	******************************************************************/
+
+
+
+	class _declspec(dllexport) ImageSubTitle :public ImageProcess
+	{
+
+	public:
+
+		//构造函数	
+		explicit ImageSubTitle(std::string* title, std::string* data);
+
+		//设置字幕格式
+		void SetFontParam(uint offsetx, uint offsety, uint cR, uint cG, uint cB, uint fontheight);
+
+		//设置表头
+		void SetTitle(std::string* title, std::string* data);
+
+		//重写处理函数显示字幕
+		cv::Mat processImage(const cv::Mat& image) override;
+
+		//返回处理名称
+		std::string ReturnName() override;
+
+	private:
+		uint offsetx;
+
+		uint offsety;
+
+		uint cR = 255;
+
+		uint cG = 0;
+
+		uint cB = 0;
+
+		uint fontheight = 10;
+
+		std::string fontpath;
+
+		std::string* title;
+
+		std::string* data;
+
+	};
+
 
 
 

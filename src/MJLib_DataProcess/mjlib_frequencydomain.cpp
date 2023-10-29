@@ -32,6 +32,7 @@ namespace mjlib {
 		int size = signal.size(); // 信号长度
 		Eigen::FFT<float> fft; // 创建FFT对象
 		Eigen::VectorXcf  spectrum; // 存储频域信号数据的向量
+
 		fft.fwd(spectrum, size);
 
 		// 计算幅值平方得到功率谱密度，且只取前半部分

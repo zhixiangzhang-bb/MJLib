@@ -32,8 +32,13 @@ add_library (${PROJECT_NAME} SHARED
 	mjlib_vision_macro.h
 	mjlib_imageprocess.h
 	mjlib_imageprocess.cpp
+	mjlib_imagefileio.h
+	mjlib_imagefileio.cpp
+	mjlib_imagestatistics.h
+	mjlib_imagestatistics.cpp
+	mjlib_edgedetection.h
+	mjlib_edgedetection.cpp
 	)
-
 
 
 
@@ -47,7 +52,22 @@ add_compile_definitions(${PROJECT_NAME})
 if(CMAKE_CL_64)    
 	target_link_libraries(${PROJECT_NAME}  PRIVATE 
 	${CMAKE_SOURCE_DIR}/3rdparty/onnxruntime/x64/lib/onnxruntime.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/ittnotify$<$<CONFIG:Debug>:d>.lib	
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/zlib$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/opencv_core470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/opencv_imgproc470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/opencv_imgcodecs470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/opencv_highgui470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libprotobuf$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libpng$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libopenjp2$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libjpeg-turbo$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libwebp$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/libtiff$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/IlmImf$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x86/vc17/staticlib/opencv_videoio470$<$<CONFIG:Debug>:d>.lib
 )
+
 
 
 else()
@@ -65,6 +85,7 @@ else()
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/libwebp$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/libtiff$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/IlmImf$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/opencv_videoio470$<$<CONFIG:Debug>:d>.lib
 	)
 
 endif()

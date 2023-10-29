@@ -1,4 +1,4 @@
-﻿/*M///////////////////////////////////////////////////////////////////////////////////////
+/*M///////////////////////////////////////////////////////////////////////////////////////
 //
 //  IMPORTANT: READ BEFORE DOWNLOADING, COPYING, INSTALLING OR USING.
 //
@@ -937,7 +937,7 @@ CV__DNN_INLINE_NS_BEGIN
     /** @brief Reads a network model stored in <a href="https://www.tensorflow.org/">TensorFlow</a> framework's format.
       * @param bufferModel buffer containing the content of the pb file
       * @param bufferConfig buffer containing the content of the pbtxt file
-      * @returns Net object.    
+      * @returns Net object.
       */
     CV_EXPORTS_W Net readNetFromTensorflow(const std::vector<uchar>& bufferModel,
                                            const std::vector<uchar>& bufferConfig = std::vector<uchar>());
