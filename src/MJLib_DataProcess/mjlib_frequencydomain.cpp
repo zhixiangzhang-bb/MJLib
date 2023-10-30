@@ -11,9 +11,16 @@ namespace mjlib {
 	 * @brief 根据采样频率计算功率谱密度
 	 * @param signal 输入数组
 	 * @param sampleRate 采样频率
+<<<<<<<<< Temporary merge branch 1
+	 * @return 返回频率和功率谱密度数组
 	*/
 	std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate)
 	{
+=========
+	 * @return 返回频率和功率谱密度数组，可内联
+	*/
+	inline std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate)
+	{			
 		
 		//傅里叶变换需要为双数，当为单数时进行补0操作
 		int size=signal.size();	
