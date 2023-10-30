@@ -4,7 +4,7 @@
 
 
 
-namespace mjlib {
+ namespace  mjlib {
 
 
 	/*****************************************************************
@@ -20,7 +20,7 @@ namespace mjlib {
 
 
 
-	class  MJLib_Vision_API ImageProcess
+	class   ImageProcess
 	{
 
 	public:
@@ -94,7 +94,7 @@ namespace mjlib {
 
 
 
-	class _declspec(dllexport) ImageSubTitle :public ImageProcess
+	class MJLib_Vision_API ImageSubTitle :public ImageProcess
 	{
 
 	public:

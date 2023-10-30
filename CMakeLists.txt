@@ -16,10 +16,7 @@ endif()
 
 
 
-
 project ("MJLib")
-
-
 
 
 
@@ -30,8 +27,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_DataProcess)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_FileIO)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_SVM)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Vision)
-
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Camera)
 
 
 #包含头文件
