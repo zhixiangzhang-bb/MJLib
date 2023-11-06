@@ -51,7 +51,6 @@ add_executable (${PROJECT_NAME}
 
 
 
-
 set(CMAKE_DEBUG_POSTFIX "d")
 
 

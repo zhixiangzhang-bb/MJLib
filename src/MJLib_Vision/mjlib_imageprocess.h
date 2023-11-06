@@ -20,7 +20,7 @@
 
 
 
-	class   ImageProcess
+	class   MJLib_Vision_API ImageProcess
 	{
 
 	public:
@@ -100,7 +100,7 @@
 	public:
 
 		//构造函数	
-		explicit ImageSubTitle(std::string* title, std::string* data);
+		ImageSubTitle(std::string* title, std::string* data);
 
 		//设置字幕格式
 		void SetFontParam(uint offsetx, uint offsety, uint cR, uint cG, uint cB, uint fontheight);
@@ -159,7 +159,7 @@
 
 	public:
 		//构造函数
-		explicit ImageGray();
+		ImageGray();
 
 		//灰度化重写处理流程
 		cv::Mat processImage(const cv::Mat& image) override;
@@ -191,7 +191,7 @@
 	{
 
 	public:
-		explicit ImageBinaryzation();
+		ImageBinaryzation();
 
 		cv::Mat processImage(const cv::Mat& image) override;
 
@@ -229,7 +229,7 @@
 		public ImageProcess
 	{
 	public:
-		explicit ImageMeanFilter();
+		ImageMeanFilter();
 
 		cv::Mat processImage(const cv::Mat& image) override;
 
@@ -273,7 +273,7 @@
 		public ImageProcess
 	{
 	public:
-		explicit ImageGaussianFilter();
+		ImageGaussianFilter();
 
 		cv::Mat processImage(const cv::Mat& image) override;
 
@@ -319,7 +319,7 @@
 		public ImageProcess
 	{
 	public:
-		explicit ImageMedianFilter();
+		ImageMedianFilter();
 
 		cv::Mat processImage(const cv::Mat& image) override;
 

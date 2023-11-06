@@ -33,24 +33,49 @@ namespace mjlib {
         };
 
 
-        explicit ImageSaveVideo(ImageProcess* parent = nullptr);
+        explicit ImageSaveVideo();
 
+        /**
+         * @brief 析构函数
+        */
         ~ImageSaveVideo();
 
-        //设置存储参数：路径、编码类型、FPS、宽度、高度
+        /**
+        * @brief 设置视频参数
+        * @param Path 保存路径
+        * @param Vdostyle 视频类型
+        * @param fps FPS
+        * @param frame_width 图片宽度
+        * @param frame_height 图片高度
+        */
         void SetVideoParam(const std::string& Path, VideoStyle Vdostyle, uint fps, int frame_width, int  frame_height);
 
-        //开始保存视频
+
+        /**
+         * @brief 重写图像处理逻辑作为保存的过程
+         * @param image 需要保存的图片流
+         * @return 返回图片
+        */
         cv::Mat processImage(const cv::Mat& image) override;
 
-        //停止保存视频、释放资源
+
+        /**
+         * @brief 停止录制视频
+        */
         void StopSaveVideo();
 
 
+        /**
+         * @brief 加载视频
+         * @param path 保存路径
+        */
         void LoadVideo(std::string path);
 
 
-        //返回处理名称
+        /**
+         * @brief 加载视频
+         * @param path 保存路径
+        */
         std::string ReturnName() override;
 
     private:

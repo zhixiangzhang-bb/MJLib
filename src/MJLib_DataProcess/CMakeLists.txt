@@ -32,7 +32,7 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 # 将源代码添加到此项目的可执行文件。
 add_library (${PROJECT_NAME}  SHARED
-	mjlib_dataprocess_macro.h
+	mjlib_dataprocess_global.h
 	mjlib_dataprocess_test.cpp
 	mjlib_frequencydomain.h
 	mjlib_frequencydomain.cpp
@@ -40,7 +40,8 @@ add_library (${PROJECT_NAME}  SHARED
 	mjlib_timedomain.cpp
 	mjlib_dataprocess_api.h
 	mjlib_dataprocess_api.cpp
-
+	mjlib_dataconvert.h
+	mjlib_dataconvert.cpp
 	)
 
 

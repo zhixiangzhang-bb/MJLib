@@ -16,6 +16,10 @@ include_directories(${CMAKE_SOURCE_DIR}/3rdparty/opencv_x86/include)
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/mvcamera)
 
 
+set(CMAKE_DEBUG_POSTFIX "d")
+
+
+
 # 将源代码添加到此项目的可执行文件。
 add_library (MJLib_Camera SHARED
 	MJLib_Camera.cpp

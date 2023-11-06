@@ -4,14 +4,23 @@
 
 namespace mjlib {
 
-
-    ImageSaveVideo::ImageSaveVideo(ImageProcess* parent)
+    /**
+     * @brief 构造函数
+     * @param parent 父类指针
+    */
+    ImageSaveVideo::ImageSaveVideo():
+        SaveVideoState(false), 
+        LoadVideoState(false), 
+        frame_width(-1), 
+        frame_height(-1)
     {
 
     }
 
 
-
+    /**
+     * @brief 析构函数
+    */
     ImageSaveVideo::~ImageSaveVideo()
     {
         StopSaveVideo();
@@ -19,7 +28,14 @@ namespace mjlib {
 
 
 
-    //根据配置打开视频文件
+    /**
+     * @brief 设置视频参数
+     * @param Path 保存路径
+     * @param Vdostyle 视频类型
+     * @param fps FPS
+     * @param frame_width 图片宽度
+     * @param frame_height 图片高度
+    */
     void ImageSaveVideo::SetVideoParam(const std::string& Path, VideoStyle Vdostyle, uint fps, int frame_width, int  frame_height)
     {
         this->frame_width = frame_width;
@@ -44,7 +60,11 @@ namespace mjlib {
     }
 
 
-    //执行一次写入一次
+    /**
+     * @brief 重写图像处理逻辑作为保存的过程
+     * @param image 需要保存的图片流
+     * @return 返回图片
+    */
     cv::Mat ImageSaveVideo::processImage(const cv::Mat& image)
     {
         if (SaveVideoState) {
@@ -56,14 +76,19 @@ namespace mjlib {
     }
 
 
-    //停止录制后释放资源
+    /**
+     * @brief 停止录制视频
+    */
     void ImageSaveVideo::StopSaveVideo()
     {
         VideoIO.release();
     }
 
 
-    //播放视频文件
+    /**
+     * @brief 加载视频
+     * @param path 保存路径
+    */
     void ImageSaveVideo::LoadVideo(std::string path)
     {
         cv::VideoCapture video(path);
@@ -92,7 +117,10 @@ namespace mjlib {
 
 
 
-    //返回处理名称
+    /**
+     * @brief 获取处理名称
+     * @return 返回处理名称
+    */
     std::string ImageSaveVideo::ReturnName()
     {
         return "保存视频";

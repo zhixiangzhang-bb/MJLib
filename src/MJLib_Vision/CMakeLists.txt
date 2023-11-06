@@ -71,6 +71,8 @@ if(CMAKE_CL_64)
 	D:/Work/Clibrary/opencv/install/x64/vc17/staticlib/IlmImf$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv/install/x64/vc17/staticlib/opencv_videoio470$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv/install/x64/vc17/staticlib/opencv_freetype470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x64/vc17/staticlib/opencv_xfeatures2d470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv/install/x64/vc17/staticlib/opencv_features2d470$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/MTD/freetype/lib/freetype$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/MTD/harfbuzz/lib/harfbuzz$<$<CONFIG:Debug>:d>.lib
 )
@@ -93,6 +95,8 @@ else()
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/libtiff$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/IlmImf$<$<CONFIG:Debug>:d>.lib
 	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/opencv_videoio470$<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/opencv_xfeatures2d470<$<CONFIG:Debug>:d>.lib
+	D:/Work/Clibrary/opencv_x86/install/x86/vc17/staticlib/opencv_features2d470<$<CONFIG:Debug>:d>.lib
 	)
 
 endif()
