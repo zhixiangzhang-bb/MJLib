@@ -2,7 +2,7 @@
 #define IMAGEFILEIO_H
 
 #include "mjlib_imageprocess.h"
-#include "mjlib_vision_macro.h"
+#include "mjlib_vision_global.h"
 
 
 
@@ -144,9 +144,9 @@ namespace mjlib {
 
         std::string format;
 
-        int frame_width;
+        int16_t frame_width;
 
-        int  frame_height;
+        int16_t  frame_height;
 
         bool autocu;
 
@@ -183,4 +183,7 @@ namespace mjlib {
 
 
 }
+
+
+
 #endif // IMAGEFILEIO_H

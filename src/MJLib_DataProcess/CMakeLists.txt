@@ -36,14 +36,13 @@ add_library (${PROJECT_NAME}  SHARED
 	mjlib_dataprocess_test.cpp
 	mjlib_frequencydomain.h
 	mjlib_frequencydomain.cpp
-	mjlib_timedomain.h
-	mjlib_timedomain.cpp
+	mjlib_prob.h
+	mjlib_prob.cpp
 	mjlib_dataprocess_api.h
 	mjlib_dataprocess_api.cpp
 	mjlib_dataconvert.h
 	mjlib_dataconvert.cpp
 	)
-
 
 
 

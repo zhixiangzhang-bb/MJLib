@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "mjlib_vision_macro.h"
+#include "mjlib_vision_global.h"
 
 
 

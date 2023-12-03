@@ -2,7 +2,7 @@
 
 
 
-#include "mjlib_vision_macro.h"
+#include "mjlib_vision_global.h"
 #include "mjlib_imageprocess.h"
 #include "mjlib_imagefileio.h"
 #include "mjlib_imagestatistics.h"

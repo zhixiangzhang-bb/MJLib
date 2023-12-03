@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 
-#include "mjlib_siemens_macro.h"
+#include "mjlib_siemens_global.h"
 
 
 

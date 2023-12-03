@@ -36,7 +36,7 @@ namespace mjlib {
      * @param frame_width 图片宽度
      * @param frame_height 图片高度
     */
-    void ImageSaveVideo::SetVideoParam(const std::string& Path, VideoStyle Vdostyle, uint fps, int frame_width, int  frame_height)
+    void ImageSaveVideo::SetVideoParam(const std::string& Path, VideoStyle Vdostyle, uint fps, int frame_width=-1, int  frame_height=-1)
     {
         this->frame_width = frame_width;
         this->frame_height = frame_height;
@@ -69,7 +69,10 @@ namespace mjlib {
     {
         if (SaveVideoState) {
             cv::Mat proimage;
-            cv::resize(image, proimage, cv::Size(frame_width, frame_height));
+            if (frame_width != -1 && frame_height != -1)
+            {
+                cv::resize(image, proimage, cv::Size(frame_width, frame_height));
+            }
             VideoIO.write(proimage);
         }
         return image;
@@ -138,14 +141,20 @@ namespace mjlib {
 
 
 
-    ImageSnapImage::ImageSnapImage(ImageProcess* parent) :num(0), autocu(false)
+    ImageSnapImage::ImageSnapImage(ImageProcess* parent) :num(0), autocu(false),frame_width(-1), frame_height(-1)
     {
 
     }
 
 
 
-    //根据配置设置图片保存类型
+    /**
+     * @brief 
+     * @param Path 保存路径
+     * @param Imgstyle 图片类型
+     * @param frame_width 图片宽度
+     * @param frame_height 图片高度
+    */
     void ImageSnapImage::SetImageParam(const std::string& Path, ImageStyle Imgstyle, int frame_width, int  frame_height)
     {
         this->path = Path;
@@ -171,7 +180,10 @@ namespace mjlib {
 
 
 
-    //设置保存路径
+    /**
+     * @brief 设置图片保存路径
+     * @param Path 保存路径
+    */
     void ImageSnapImage::SetImagePath(std::string& Path)
     {
         this->path = Path;
@@ -179,7 +191,10 @@ namespace mjlib {
 
 
 
-    //设置自动化采集
+    /**
+     * @brief 设置是否为连续采集
+     * @param autocu 连续采集状态
+    */
     void ImageSnapImage::SetAuto(bool autocu)
     {
         this->autocu = autocu;
@@ -188,7 +203,11 @@ namespace mjlib {
 
 
 
-    //执行一次写入一次
+    /**
+     * @brief 将图片保存到指定为止
+     * @param image 需要保存的图片
+     * @return 返回保存的图像
+    */
     cv::Mat ImageSnapImage::processImage(const cv::Mat& image)
     {
         cv::Mat proimage;
@@ -197,13 +216,19 @@ namespace mjlib {
             pathstr = path + std::to_string(num) + format;
             num++;
         }
-        cv::resize(image, proimage, cv::Size(frame_width, frame_height));
+        if (frame_width != -1 && frame_height != -1)
+        {
+            cv::resize(image, proimage, cv::Size(frame_width, frame_height));
+        }
         cv::imwrite(pathstr, image);
         return image;
     }
 
 
-    //返回处理名称
+    /**
+     * @brief 
+     * @return 返回这个处理的名称
+    */
     std::string ImageSnapImage::ReturnName()
     {
         return "采集图片";

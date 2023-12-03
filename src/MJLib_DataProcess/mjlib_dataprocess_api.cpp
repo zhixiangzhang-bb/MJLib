@@ -24,14 +24,14 @@ extern "C" {
 
 		//时域处理队列
 		std::vector<mjlib::DataProcess*> timelist;
-		timelist.push_back(new mjlib::DataXppm(500, 500));
-		timelist.push_back(new mjlib::DataXpp());
-		timelist.push_back(new mjlib::ACFsum(96));
-		timelist.push_back(new mjlib::DataVar());
-		timelist.push_back(new mjlib::DataH());
-		timelist.push_back(new mjlib::DataPth(1.5));
-		timelist.push_back(new mjlib::DataPsdMSF(arry.size()));
-		timelist.push_back(new mjlib::DataPsdMSF(arry.size()));
+		timelist.push_back(new mjlib::data::DataXppm(500, 500));
+		timelist.push_back(new mjlib::data::DataXpp());
+		timelist.push_back(new mjlib::data::ACFsum(96));
+		timelist.push_back(new mjlib::data::DataVar());
+		timelist.push_back(new mjlib::data::DataH());
+		timelist.push_back(new mjlib::data::DataPth(1.5));
+		timelist.push_back(new mjlib::data::DataPsdMSF(arry.size()));
+		timelist.push_back(new mjlib::data::DataPsdMSF(arry.size()));
 
 
 		//迭代数据处理
@@ -55,7 +55,7 @@ extern "C" {
 	*/
 	uint32_t* CreateACFsum()
 	{
-		mjlib::ACFsum* acfsum = new  mjlib::ACFsum;
+		mjlib::data::ACFsum* acfsum = new  mjlib::data::ACFsum;
 		return reinterpret_cast<uint32_t*>(acfsum);
 	}
 
@@ -75,7 +75,7 @@ extern "C" {
 		}
 		try
 		{
-			mjlib::ACFsum* acfsum = new mjlib::ACFsum;
+			mjlib::data::ACFsum* acfsum = new mjlib::data::ACFsum;
 			std::vector<float> array(value, value + length);
 			auto result = acfsum->ReturnDataProcessResult(array);
 			delete acfsum;
@@ -97,7 +97,7 @@ extern "C" {
 	*/
 	uint32_t* CreatePsdMSF()
 	{
-		mjlib::DataPsdMSF* PsdMSF = new mjlib::DataPsdMSF;
+		mjlib::data::DataPsdMSF* PsdMSF = new mjlib::data::DataPsdMSF;
 		return reinterpret_cast<uint32_t*>(PsdMSF);
 	}
 
@@ -117,7 +117,7 @@ extern "C" {
 		}
 		try
 		{
-			mjlib::DataPsdMSF* PsdMsf = new mjlib::DataPsdMSF;
+			mjlib::data::DataPsdMSF* PsdMsf = new mjlib::data::DataPsdMSF;
 			std::vector<float> array(value, value + length);
 			auto result = PsdMsf->ReturnDataProcessResult(array);
 			delete PsdMsf;
@@ -144,7 +144,7 @@ extern "C" {
 		{
 			return NAN;
 		}
-		mjlib::DataMean* mean = new  mjlib::DataMean;
+		mjlib::data::DataMean* mean = new  mjlib::data::DataMean;
 		try
 		{
 			std::vector<float> array(value, value + length);
@@ -176,7 +176,7 @@ extern "C" {
 		}
 		try
 		{
-			mjlib::DataRMS* RMS = new mjlib::DataRMS;
+			mjlib::data::DataRMS* RMS = new mjlib::data::DataRMS;
 			std::vector<float> array(value, value + length);
 			auto result = RMS->ReturnDataProcessResult(array);
 			delete RMS;

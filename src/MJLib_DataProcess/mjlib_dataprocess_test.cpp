@@ -14,6 +14,8 @@ using namespace std;
 
 int main()
 {
+	std::vector<float> arry;
+	mjlib::data::ACFsum(arry);
 	return 0;
 }
 

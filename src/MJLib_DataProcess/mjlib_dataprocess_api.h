@@ -2,7 +2,7 @@
 
 
 #include "mjlib_frequencydomain.h"
-#include "mjlib_timedomain.h"
+#include "mjlib_prob.h"
 
 
 

@@ -13,6 +13,9 @@
 #endif
 
 
+#define EIGEN_MAP_VECTORXd(vec, data) \
+    Eigen::Map<Eigen::VectorXd> vec(data.data(), data.size())
+
 
 
 namespace mjlib {
@@ -21,7 +24,6 @@ namespace mjlib {
 	enum TD_Idex {
 		Default,
 	};
-
 
 
 
@@ -36,14 +38,13 @@ namespace mjlib {
 	******************************************************************/
 
 
-
 	class DataProcess
 	{
 	public:
 
 		DataProcess() {};
 
-		virtual float ReturnDataProcessResult(std::vector<float>& signal) = 0;
+		virtual double ReturnDataProcessResult(std::vector<double>& signal) = 0;
 
 
 	};
@@ -67,7 +68,7 @@ namespace mjlib {
 	public:
 		FrequencyDomain() {};
 
-		virtual float ReturnDataProcessResult(std::vector<float>& signal) = 0;
+		virtual float ReturnDataProcessResult(const std::vector<float>& signal) = 0;
 
 		/**
 		 * @brief 傅里叶变换
