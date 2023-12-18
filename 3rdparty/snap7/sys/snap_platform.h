@@ -1,4 +1,4 @@
-/*=============================================================================|
+﻿/*=============================================================================|
 |  PROJECT SNAP7                                                         1.4.1 |
 |==============================================================================|
 |  Copyright (C) 2013, 2015 Davide Nardella                                    |
@@ -137,12 +137,12 @@
 
 // *Use them* if you change/expand the code and avoid long, u_long and so on...
 
-typedef uint8_t    byte;
-typedef uint16_t   word;
-typedef uint32_t   longword;
-typedef byte       *pbyte;
-typedef word       *pword;
-typedef uintptr_t  snap_obj; // multi platform/processor object reference
+    typedef uint8_t    byte;
+    typedef uint16_t   word;
+    typedef uint32_t   longword;
+    typedef byte   *pbyte;
+    typedef word* pword;
+    typedef uintptr_t  snap_obj; // multi platform/processor object reference
 
 #ifndef OS_WINDOWS
 # define INFINITE  0XFFFFFFFF

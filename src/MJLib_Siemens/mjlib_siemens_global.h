@@ -5,8 +5,6 @@
 
 
 
-
-
 #ifdef MJLib_Siemens_EXPORTS
 #define MJLib_Siemens_API __declspec(dllexport)
 #else

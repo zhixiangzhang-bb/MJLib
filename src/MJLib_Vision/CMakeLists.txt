@@ -29,7 +29,7 @@ add_library (${PROJECT_NAME} SHARED
 	mjlib_Vision_test.h
 	mjlib_vision_api.h
 	mjlib_vision_api.cpp
-	mjlib_vision_macro.h
+	mjlib_vision_global.h
 	mjlib_imageprocess.h
 	mjlib_imageprocess.cpp
 	mjlib_imagefileio.h

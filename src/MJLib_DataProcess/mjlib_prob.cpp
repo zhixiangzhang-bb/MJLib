@@ -107,7 +107,7 @@ namespace mjlib {
             return result;
         }
 
-
+        //计算分位概率
         inline double Pth(std::vector<double>& data, const double& threshold)
         {
             int counts = data.size();

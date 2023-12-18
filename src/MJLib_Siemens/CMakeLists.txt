@@ -33,16 +33,26 @@ include_directories(${CMAKE_SOURCE_DIR}/3rdparty/snap7/sys)
 
 
 # 将源代码添加到此项目的可执行文件。
-add_library (MJLib_Siemens  SHARED
+add_library (${PROJECT_NAME}  SHARED
 	mjlib_siemensclient.cpp 
 	mjlib_siemensclient.h
 	mjlib_siemens_api.h
-	mjlib_siemens_macro.h
+	mjlib_siemens_global.h
 	mjlib_siemens_test.cpp
 )
 
 
+#判断编译器位数执行不同链接操作
+if(CMAKE_CL_64)    
+	target_link_libraries(${PROJECT_NAME}  PRIVATE 
+	D:/Work/Clibrary/snap7-full-1.4.2/release/Windows/Win64/snap7.lib
+)
+else()
+	target_link_libraries(${PROJECT_NAME}  PRIVATE 
+	D:/Work/Clibrary/snap7-full-1.4.2/release/Windows/Win64/snap7.lib
+)
 
+endif()
 
 add_compile_definitions(${PROJECT_NAME})
 

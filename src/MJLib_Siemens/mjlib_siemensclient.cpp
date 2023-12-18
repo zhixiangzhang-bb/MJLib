@@ -16,80 +16,62 @@ namespace mjlib {
 
 
 
-		Client::Client()
+		Client::Client():Address("0,0,0,0"), LocalTSAP(0), RemoteTSAP(0), Simens_Cilent(Cli_Create())
 		{
-			simens_cilent = Cli_Create();
-			const char* address = "192.168.1.20";
-			Cli_SetConnectionParams(simens_cilent, address, 0, 2);
+			
 		}
 
 
 
-
-		Client::Client(const char* Address, word LocalTSAP, word RemoteTSAP)
+		Client::Client(const char* Address, word LocalTSAP, word RemoteTSAP):Address(Address), LocalTSAP(LocalTSAP), RemoteTSAP(RemoteTSAP), Simens_Cilent(Cli_Create())
 		{
 
 		}
 
 
-		/**
-		 * @brief 析构函数
-		*/
 		Client::~Client()
 		{
-
+			Cli_Destroy(Simens_Cilent);
 		}
 
 
-		/**
-		 * @brief 根据参数连接
-		 * @return 返回是否连接成功状态
-		*/
-		int Client::ConnectTo()
+		//连接PLC
+		int Client::Connect()
 		{
-			if (simens_cilent != NULL&& Address!="")
-			{
-				return Cli_ConnectTo(simens_cilent, Address, LocalTSAP, RemoteTSAP);
+			if (Address!=""&& Cli_ConnectTo(Simens_Cilent, Address, Rack, Slot))
+			{				
+				return Cli_Connect(Simens_Cilent);
 			}
 		}
 
 
 
-		/**
-		 * @brief 断开与服务器的连接
-		 * @return 返回是否断开成功
-		*/
+		//断开PLC连接
 		int Client::DisConnect()
 		{
-			return Cli_Disconnect(simens_cilent);
+			return Cli_Disconnect(Simens_Cilent);
 		}
 
-
-		/**
-		 * @brief 读取DB块的数据
-		 * @param DBNumber DB块编号
-		 * @param Start 开始地址
-		 * @param Size 读取长度
-		 * @param pUsrData 用户数据指针
-		 * @return 
-		*/
+		//读取数据块
 		int Client::Read_DBRead(int DBNumber, int Start, int Size, void* pUsrData)
 		{
-			return Cli_DBRead(simens_cilent, DBNumber, Start, Size, pUsrData);
+			return Cli_DBRead(Simens_Cilent, DBNumber, Start, Size, pUsrData);
 		}
 
-
-
+		//写入数据块
 		int Client::Write_DBWrite(int DBNumber, int Start, int Size, void* pUsrData)
 		{
-			return Cli_DBWrite(simens_cilent, DBNumber, Start, Size, pUsrData);
+			return Cli_DBWrite(Simens_Cilent, DBNumber, Start, Size, pUsrData);
 		}
 
-		   
+		//设置IP地址   
 		int16_t Client::SetIpAddress(const char* ip)
 		{
 			Address = ip;
+			return 1;
 		}
+
+
 	}
 }
 
