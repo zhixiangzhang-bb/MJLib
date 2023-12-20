@@ -6,7 +6,7 @@ namespace mjlib {
 	namespace dp {
 
 		template<typename T>
-		inline T  Byte2DoubleBig(const void* data,const int size)
+		inline double  Byte2DoubleBig(const void* data,const int size)
 		{
 			if (byteArray.size() == sizeof(float)) {
 				T floatValue;

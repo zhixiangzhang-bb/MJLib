@@ -31,7 +31,7 @@ namespace mjlib {
 
 
 
-		class MJLib_DataProcess_API DataPsdMSF :public DataProcess<float>
+		class MJLib_DataProcess_API DataPsdMSF :public DataProcess
 		{
 
 		public:

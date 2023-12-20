@@ -37,6 +37,7 @@ add_library (${PROJECT_NAME}  SHARED
 	mjlib_siemensclient.cpp 
 	mjlib_siemensclient.h
 	mjlib_siemens_api.h
+	mjlib_siemens_api.cpp
 	mjlib_siemens_global.h
 	mjlib_siemens_test.cpp
 )
@@ -49,10 +50,10 @@ if(CMAKE_CL_64)
 )
 else()
 	target_link_libraries(${PROJECT_NAME}  PRIVATE 
-	D:/Work/Clibrary/snap7-full-1.4.2/release/Windows/Win64/snap7.lib
+	D:/Work/Clibrary/snap7-full-1.4.2/release/Windows/Win32/snap7.lib
 )
-
 endif()
+
 
 add_compile_definitions(${PROJECT_NAME})
 

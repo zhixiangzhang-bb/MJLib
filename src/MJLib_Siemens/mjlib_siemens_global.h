@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-
+#include <iostream>
 #include "snap7_libmain.h"
 
 

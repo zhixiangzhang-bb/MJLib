@@ -24,15 +24,12 @@ extern "C" {
 
 		//时域处理队列
 		std::vector<mjlib::DataProcess*> timelist;
-		timelist.push_back(new mjlib::data::DataXppm(500, 500));
-		timelist.push_back(new mjlib::data::DataXpp());
-		timelist.push_back(new mjlib::data::ACFsum(96));
-		timelist.push_back(new mjlib::data::DataVar());
-		timelist.push_back(new mjlib::data::DataH());
-		timelist.push_back(new mjlib::data::DataPth(1.5));
-		timelist.push_back(new mjlib::data::DataPsdMSF(arry.size()));
-		timelist.push_back(new mjlib::data::DataPsdMSF(arry.size()));
-
+		timelist.push_back(new mjlib::dataclass::DataXppm(500, 500));
+		timelist.push_back(new mjlib::dataclass::DataXpp());
+		timelist.push_back(new mjlib::dataclass::ACFsum(96));
+		timelist.push_back(new mjlib::dataclass::DataVar());
+		timelist.push_back(new mjlib::dataclass::DataH());
+		timelist.push_back(new mjlib::dataclass::DataPth(1.5));
 
 		//迭代数据处理
 		int cout = 0;
