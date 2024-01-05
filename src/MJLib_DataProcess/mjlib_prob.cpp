@@ -127,7 +127,9 @@ namespace mjlib {
         */
         double DataH::ReturnDataProcessResult(std::vector<double>& signal)
         {
+            
             return data::H(signal);
+ 
         }
 
 
@@ -202,9 +204,9 @@ namespace mjlib {
 
             if (signal.size() > top_num && signal.size() > bottom_num) {
 
-                Eigen::VectorXf arry = Eigen::Map<Eigen::VectorXd>(signal.data(), signal.size());
-                Eigen::VectorXf top = arry.topRows(top_num);
-                Eigen::VectorXf bottom = arry.bottomRows(bottom_num);
+                Eigen::Map<Eigen::VectorXd> arry(signal.data(), signal.size());
+                Eigen::VectorXd top = arry.topRows(top_num);
+                Eigen::VectorXd bottom = arry.bottomRows(bottom_num);
                 auto max = top.mean();
                 auto min = bottom.mean();
                 return std::max(top.mean(), -bottom.mean());
@@ -259,7 +261,7 @@ namespace mjlib {
                 return 0;
             }
             else {
-                Eigen::VectorXf arry = Eigen::Map<Eigen::VectorXd>(signal.data(), signal.size());
+                Eigen::VectorXd arry = Eigen::Map<Eigen::VectorXd>(signal.data(), signal.size());
                 double mean = arry.mean();
                 return (arry.array() - mean).square().sum() / (arry.size());;
             }
@@ -302,7 +304,7 @@ namespace mjlib {
         double DataPth::ReturnDataProcessResult(std::vector<double>& signal)
         {
             int counts = signal.size();
-            Eigen::VectorXf data = Eigen::Map<Eigen::VectorXd>(signal.data(), signal.size());
+            Eigen::VectorXd data = Eigen::Map<Eigen::VectorXd>(signal.data(), signal.size());
             int P43 = (data.array().abs() > threshold).count();
             float Pth = static_cast<float>(P43) / counts;
             return Pth;

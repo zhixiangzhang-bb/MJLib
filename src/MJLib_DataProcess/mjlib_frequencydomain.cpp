@@ -7,13 +7,16 @@ namespace mjlib {
 
 	namespace data {
 
+
+
 		/**
 		 * @brief 根据采样频率计算功率谱密度
 		 * @param signal 输入数组
 		 * @param sampleRate 采样频率
 		 * @return 返回频率和功率谱密度数组
 		*/
-		inline std::vector<std::vector<float>>  PSD(std::vector<float>& signal, int sampleRate)
+		template<typename NUM>
+		inline std::vector<std::vector<NUM>>  PSD(std::vector<double>& signal, int sampleRate)
 		{
 
 			//傅里叶变换需要为双数，当为单数时进行补0操作
@@ -23,26 +26,26 @@ namespace mjlib {
 				size = signal.size();
 			}
 
-			std::vector<std::vector<float>> out;
+			std::vector<std::vector<double>> out;
 			if (signal.empty()) {
-				return std::vector<std::vector<float>>();
+				return std::vector<std::vector<double>>();
 			}
 
-			Eigen::Map<Eigen::VectorXf> vec(signal.data(), signal.size());
+			Eigen::Map<Eigen::VectorXd> vec(signal.data(), signal.size());
 
-			int size = signal.size(); // 信号长度
-			Eigen::FFT<float> fft; // 创建FFT对象
-			Eigen::VectorXcf  spectrum; // 存储频域信号数据的向量
+			size = signal.size(); // 信号长度
+			Eigen::FFT<double> fft; // 创建FFT对象
+			Eigen::VectorXcd  spectrum; // 存储频域信号数据的向量
 
 			fft.fwd(spectrum, size);
 
 			// 计算幅值平方得到功率谱密度，且只取前半部分
-			Eigen::VectorXf amplitude = spectrum.array().abs2() / size; // 计算幅值平方得到功率谱密度
+			Eigen::VectorXd amplitude = spectrum.array().abs2() / size; // 计算幅值平方得到功率谱密度
 
 			// 计算器
-			Eigen::VectorXf frequency = Eigen::VectorXf::LinSpaced(size, 0, sampleRate / 2);
-			std::vector<float> freqVec(amplitude.data(), amplitude.data() + amplitude.size());
-			std::vector<float> powerSpecVec(frequency.data(), frequency.data() + frequency.size());
+			Eigen::VectorXd frequency = Eigen::VectorXd::LinSpaced(size, 0, sampleRate / 2);
+			std::vector<double> freqVec(amplitude.data(), amplitude.data() + amplitude.size());
+			std::vector<double> powerSpecVec(frequency.data(), frequency.data() + frequency.size());
 
 			out.push_back(freqVec);
 			out.push_back(powerSpecVec);
@@ -53,72 +56,71 @@ namespace mjlib {
 
 
 
-
-		/*****************************************************************
-		* 类名称：傅里叶变换
-		* 功能描述：
-		* 作者：zzx
-		* 创建日期：2023.9.25
-		* 最后修改：zzx
-		* 最后修改日期：
-		* 备注：
-		******************************************************************/
-
-
-
-		DataPsdMSF::DataPsdMSF() :sampleRate(1)
+		/**
+		 * @brief 生成汉宁窗数组
+		 * @param length 窗长度
+		 * @return 返回汉宁窗数组
+		*/
+		inline std::vector<double> Window(int32_t length, windowtype type)
 		{
+			std::vector<double> window(length);
+
+			switch (type)
+			{
+			//汉宁窗生成
+			case HanningWindow:
+				for (int i = 0; i < length; ++i) {
+					window[i] = 0.54 - 0.46 * std::cos(2 * PI * i / (length - 1));
+				}
+				break;
+
+			//汉明窗生成
+			case HammingWindow:
+				for (int i = 0; i < length; ++i)
+				{
+					window[i] = 0.54 - 0.46 * std::cos(2 * PI * i / (length - 1));
+				}
+				break;
+
+			case BlackmanWindow:
+				for (int i = 0; i < length; ++i)
+				{
+					window[i] = 0.42 - 0.5 * std::cos(2 * PI * i / (length - 1)) + 0.08 * std::cos(4 * PI * i / (length - 1));
+				}
+				break;
 
 
+			default:
+				break;
+			}
+
+			return window;
 		}
-
-
-
-		DataPsdMSF::DataPsdMSF(int sampleRate) :sampleRate(sampleRate)
-		{
-
-		}
-
 
 
 		/**
-		 * @brief 进行傅里叶变换
-		 * @param signal 输入信号数组
-		 * @return 返回频率和幅值的二维数组，0为频率，1为幅值
+		 * @brief 加窗计算函数
+		 * @param data 输入数组
+		 * @param type 窗类型
+		 * @return 返回加窗后的数组
 		*/
-		float DataPsdMSF::ReturnDataProcessResult(std::vector<float>& signal)
+		inline std::vector<double>  AddWindow(std::vector<double>& data, windowtype type)
 		{
-			std::vector<std::vector<float>> out;
-			if (signal.empty()) {
-				return NAN;
+			if (data.empty()) {
+				return std::vector<double>();
 			}
-			else {
-				auto psdarry = PSD(signal, sampleRate);
-				Eigen::Map<Eigen::VectorXf> Psd(psdarry[0].data(), 52429);
-				Eigen::Map<Eigen::VectorXf> f_psd(psdarry[1].data(), 52429);
-				Psd = Psd.array().log10();//取10为底的对数
-
-				float PsdSum = Psd.sum();
-
-				Eigen::VectorXf f_psd2 = f_psd.array().square();//计算频率的平方
-				auto dotProduct = f_psd2.dot(Psd);//计算频率和功率的点积
-				auto PsdMSF = dotProduct / PsdSum;//点积除和得到均方
-				return PsdMSF;
-
-			}
-
+			
+			auto size = data.size();
+			std::vector<double> result(size);
+			auto win=Window(size, type);
+			//内存映射
+			Eigen::Map<Eigen::VectorXd> data1(result.data(), size);
+			Eigen::Map<Eigen::VectorXd> result1(result.data(), size);
+			Eigen::Map<Eigen::VectorXd> win1(win.data(), size);
+			result1 = data1 * win1;//两个向量相乘得到结果
+			return result;
 		}
 
-
-
-		/**
-		 * @brief 设置采样频率
-		 * @param sampleRate  频率
-		*/
-		void DataPsdMSF::SetConfig(int sampleRate)
-		{
-			this->sampleRate = sampleRate;
-		}
 
 
 	}

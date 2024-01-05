@@ -2,9 +2,9 @@
 
 
 #include "mjlib_siemensclient.h"
+#include "mjlib_siemens_api.h"
 
-
-
+/*
 
 int main()
 {
@@ -20,8 +20,11 @@ int main()
 	{
 		std::cout << data[i] << std::endl;
 	}
+	
+
+	auto client=CreateSimensClient("192.168.1.201", 3000, 3000);
+	auto status=Connect(client);
 	return 0;
 }
 
-
-
+*/

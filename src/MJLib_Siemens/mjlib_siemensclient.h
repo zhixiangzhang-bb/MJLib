@@ -47,8 +47,8 @@ namespace mjlib {
 		*/
 		enum ByteOrder
 		{
-			Big_Endian,//大端排序方法，西门子默认
-			Little_Endian//小端排序方法
+			Big_Endian=0,//大端排序方法，西门子默认
+			Little_Endian=1//小端排序方法
 		};
 
 
@@ -104,7 +104,9 @@ namespace mjlib {
 
 			Client();
 
-			Client(const char* Address, word LocalTSAP, word RemoteTSAP);
+			Client(const char* Address, uint16_t TSAP);
+
+			Client(const char* Address, uint16_t Rack, uint16_t Slot);
 
 			~Client();
 
@@ -148,7 +150,36 @@ namespace mjlib {
 			*/
 			std::vector<int16_t> Read_Int16(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order);
 
-	
+			/**
+			 * @brief DB数据块读取数据字节
+			 * @param Area 读取区域
+			 * @param DBNumber DB块编号
+			 * @param Start 启始地址
+			 * @param Size 长度
+			 * @param Order 字节顺序
+			 * @return 返回字节数组
+			*/
+			std::vector<int8_t> Read_Byte(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order);
+
+
+			template<typename T>
+			std::vector<T> ReadData(DataArea Area, int DBNumber, int Start, int Size, int length, ByteOrder Order)
+			{
+				switch (Size)
+				{
+				case 1:
+					int8_t * data = new int8_t[Size];
+					Cli_ReadArea(Simens_Cilent, Area, DBNumber, Start, Size, S7WLWord, data);
+					if (Order == Big_Endian) {
+						SwapByte(data, Size);
+					}
+					std::vector<int8_t> result(data, data + Size);
+					return result;
+				default:
+					break;
+				}
+			}
+
 			/**
 			 * @brief 写入PLC数据
 			 * @tparam T 模版数据
@@ -173,19 +204,19 @@ namespace mjlib {
 
 
 			/**
-			 * @brief PLC热启动
+			 * @brief PLC热启动，暂时不能用
 			 * @return 返回启动状态
 			*/
 			int16_t PlcHotStart();
 
 			/**
-			 * @brief PLC冷启动
+			 * @brief PLC冷启动，暂时不能用
 			 * @return 返回执行状态
 			*/
 			int16_t PlcColdStart();
 
 			/**
-			 * @brief PLC停止
+			 * @brief PLC停止，暂时不能用
 			 * @return 返回执行状态
 			*/
 			int16_t PlcStop();
@@ -196,7 +227,13 @@ namespace mjlib {
 			*/
 			int16_t SetIpAddress(const char* ip);
 
-
+			/**
+			 * @brief 设置机架和槽
+			 * @param Rack 机架号
+			 * @param Slot 槽号
+			 * @return 返回是否设置成功
+			*/
+			int16_t SetRack(uint16_t Rack,uint16_t Slot);
 
 
 			/*****************************************************************

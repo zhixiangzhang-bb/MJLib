@@ -22,10 +22,9 @@ project ("MJLib_DataProcess")
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/Eigen)
 
 
-
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/lib) 
 
 set(CMAKE_DEBUG_POSTFIX "d")
-
 
 
 

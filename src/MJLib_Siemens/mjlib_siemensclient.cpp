@@ -25,19 +25,26 @@ namespace mjlib {
 		}
 
 
-		Client::Client():Address("0,0,0,0"), LocalTSAP(0), RemoteTSAP(0), Simens_Cilent(Cli_Create()),Rack(0),Slot(1)
+		Client::Client():Address("192,168,0,1"), LocalTSAP(4226), RemoteTSAP(4226), Simens_Cilent(Cli_Create()),Rack(0),Slot(1)
 		{
 			
 		}
 
 
 
-		Client::Client(const char* Address, word LocalTSAP, word RemoteTSAP):Address(Address), 
-			LocalTSAP(LocalTSAP), RemoteTSAP(RemoteTSAP), Simens_Cilent(Cli_Create()),
+		Client::Client(const char* Address, uint16_t TSAP):Address(Address), 
+			LocalTSAP(TSAP), RemoteTSAP(TSAP), Simens_Cilent(Cli_Create()),
 			Rack(0), Slot(1)
 
 		{
 			
+		}
+
+		Client::Client(const char* Address, uint16_t Rack, uint16_t Slot):Address(Address),
+			LocalTSAP(4226),RemoteTSAP(4226), Simens_Cilent(Cli_Create()),
+			Rack(Rack), Slot(Slot)
+		{
+
 		}
 
 
@@ -54,11 +61,13 @@ namespace mjlib {
 			{				
 				return Cli_ConnectTo(Simens_Cilent, Address, Rack, Slot);
 			}
+			return 0;
 		}
 
 
 		//断开PLC连接
 		int16_t Client::DisConnect()
+
 		{
 			return Cli_Disconnect(Simens_Cilent);
 		}
@@ -102,6 +111,19 @@ namespace mjlib {
 			return result;
 		}
 
+		//读取字节
+		std::vector<int8_t> Client::Read_Byte(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order)
+		{
+			int8_t* data = new int8_t[Size];
+			Cli_ReadArea(Simens_Cilent, Area, DBNumber, Start, Size, S7WLWord, data);
+			if (Order == Big_Endian) {
+				SwapByte(data, Size);
+			}
+			std::vector<int8_t> result(data, data + Size);
+			return result;
+		}
+
+
 
 		//PLC热启动
 		int16_t Client::PlcHotStart()
@@ -128,7 +150,13 @@ namespace mjlib {
 			return 1;
 		}
 
-
+		//设置机架号和槽号
+		int16_t Client::SetRack(uint16_t Rack, uint16_t Slot)
+		{
+			this->Rack = Rack;
+			this->Slot = Slot;
+			return 1;
+		}
 
 		/*****************************************************************
 		* 获取状态的函数组

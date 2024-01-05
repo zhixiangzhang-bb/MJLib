@@ -16,14 +16,14 @@ extern "C" {
 	 * @param result 结果指针
 	 * @return 返回状态
 	*/
-	int CavitationDataProcess(float* value, int length, float* result)
+	int CavitationDataProcess(double* value, int length, double* result)
 	{
 
-		std::vector<float> arry(value, value + length);
+		std::vector<double> arry(value, value + length);
 
 
 		//时域处理队列
-		std::vector<mjlib::DataProcess*> timelist;
+		std::vector<mjlib::dataclass::DataProcess*> timelist;
 		timelist.push_back(new mjlib::dataclass::DataXppm(500, 500));
 		timelist.push_back(new mjlib::dataclass::DataXpp());
 		timelist.push_back(new mjlib::dataclass::ACFsum(96));
@@ -52,7 +52,7 @@ extern "C" {
 	*/
 	uint32_t* CreateACFsum()
 	{
-		mjlib::data::ACFsum* acfsum = new  mjlib::data::ACFsum;
+		mjlib::dataclass::ACFsum* acfsum = new  mjlib::dataclass::ACFsum;
 		return reinterpret_cast<uint32_t*>(acfsum);
 	}
 
@@ -64,7 +64,7 @@ extern "C" {
 	 * @param length 数组长度
 	 * @return 返回时域自相关
 	*/
-	float ACFsum(float* value, int length)
+	double ACFsum(double* value, int length)
 	{
 		//数组长度小于0直接返回错误状态
 		{
@@ -72,8 +72,8 @@ extern "C" {
 		}
 		try
 		{
-			mjlib::data::ACFsum* acfsum = new mjlib::data::ACFsum;
-			std::vector<float> array(value, value + length);
+			mjlib::dataclass::ACFsum* acfsum = new mjlib::dataclass::ACFsum;
+			std::vector<double> array(value, value + length);
 			auto result = acfsum->ReturnDataProcessResult(array);
 			delete acfsum;
 			return result;
@@ -88,43 +88,6 @@ extern "C" {
 
 
 
-	/**
-	 * @brief 创建功率谱密度重心频率
-	 * @return 返回处理指针
-	*/
-	uint32_t* CreatePsdMSF()
-	{
-		mjlib::data::DataPsdMSF* PsdMSF = new mjlib::data::DataPsdMSF;
-		return reinterpret_cast<uint32_t*>(PsdMSF);
-	}
-
-
-
-
-	/**
-	 * @brief 计算频率的均方值
-	 * @param value 数据指针
-	 * @param length 数组长度
-	 * @return 返回均方频率
-	*/
-	float DataPsdMSF(float* value, int length)
-	{
-		if (length <= 0) {
-			return NAN;
-		}
-		try
-		{
-			mjlib::data::DataPsdMSF* PsdMsf = new mjlib::data::DataPsdMSF;
-			std::vector<float> array(value, value + length);
-			auto result = PsdMsf->ReturnDataProcessResult(array);
-			delete PsdMsf;
-			return result;
-		}
-		catch (const std::exception&)
-		{
-			return NAN;
-		}
-	}
 
 
 
@@ -134,17 +97,17 @@ extern "C" {
 	 * @param length 输入数组长度
 	 * @return 返回计算均值
 	*/
-	float DataMean(float* value, int length)
+	double DataMean(double* value, int length)
 	{
 		//数组长度小于0直接返回错误状态
 		if (length <= 0)
 		{
 			return NAN;
 		}
-		mjlib::data::DataMean* mean = new  mjlib::data::DataMean;
+		mjlib::dataclass::DataMean* mean = new  mjlib::dataclass::DataMean;
 		try
 		{
-			std::vector<float> array(value, value + length);
+			std::vector<double> array(value, value + length);
 			auto result = mean->ReturnDataProcessResult(array);
 			delete mean;
 			return result;
@@ -165,7 +128,7 @@ extern "C" {
 	 * @param length 数据长度
 	 * @return 
 	*/
-	float DataRMS(float* value, int length)
+	double DataRMS(double* value, int length)
 	{
 		
 		if (length <= 0) {
@@ -173,8 +136,8 @@ extern "C" {
 		}
 		try
 		{
-			mjlib::data::DataRMS* RMS = new mjlib::data::DataRMS;
-			std::vector<float> array(value, value + length);
+			mjlib::dataclass::DataRMS* RMS = new mjlib::dataclass::DataRMS;
+			std::vector<double> array(value, value + length);
 			auto result = RMS->ReturnDataProcessResult(array);
 			delete RMS;
 		}

@@ -2,7 +2,6 @@
 //
 
 #include "mjlib_dataprocess_api.h"
-#include <random>
 
 
 
@@ -14,8 +13,7 @@ using namespace std;
 
 int main()
 {
-	std::vector<float> arry;
-	mjlib::data::ACFsum(arry);
+	std::vector<double> arry;
 	return 0;
 }
 

@@ -5,8 +5,9 @@ namespace mjlib {
 
 	namespace dp {
 
+		/*
 		template<typename T>
-		inline double  Byte2DoubleBig(const void* data,const int size)
+		inline double  Byte2DoubleBig(const std::vector<char>& byteArray)
 		{
 			if (byteArray.size() == sizeof(float)) {
 				T floatValue;
@@ -58,12 +59,17 @@ namespace mjlib {
 			}
 		}
 
+
+
+
 		/**
 		 * @brief
 		 * @tparam T 任意数据类型，这里接受各种整形和浮点类型
 		 * @param data 输入数据
 		 * @return 返回字节数组
 		*/
+
+		/*
 		template<typename T>
 		inline const char* Data2Byte(const T& data)
 		{
@@ -85,6 +91,6 @@ namespace mjlib {
 			return reinterpret_cast<const char*>(&data);
 		}
 
-
+		*/
 	}
 }

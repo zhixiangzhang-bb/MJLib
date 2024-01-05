@@ -8,7 +8,6 @@
 
 
 
-
 namespace mjlib {
 
 	namespace dp {
@@ -18,6 +17,8 @@ namespace mjlib {
 		 * @param byteArray 输入字节数组
 		 * @return 返回转换的值
 		*/
+
+		/*
 		template<typename T>
 		inline T  Byte2DoubleBig(const void* data, const int size);
 
@@ -36,6 +37,7 @@ namespace mjlib {
 		 * @param data 输入数据
 		 * @return 返回字节数组
 		*/
+		/*
 		template<typename T>
 		inline const char* Data2Byte(const T& data);
 
@@ -46,7 +48,7 @@ namespace mjlib {
 		inline const char*  Int2Byte(const int& data);
 
 
-
+		*/
 
 	}
 }

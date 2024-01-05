@@ -3,8 +3,7 @@
 
 
 #include "mjlib_dataprocess_global.h"
-
-
+#include <map>
 
 
 namespace mjlib {
@@ -12,37 +11,20 @@ namespace mjlib {
 
 	namespace data {
 
-		/**
-		 * @brief 时域自相关系数
-		 * @param signal 输入信号
-		 * @param nlags 
-		 * @return 返回
-		*/
-		MJLib_DataProcess_API inline double ACFsum(std::vector<double>& data, int16_t nlags)
-		{
-			Eigen::Map<Eigen::VectorXd> arry(data.data(), data.size());
-			int n = arry.size();
-			Eigen::VectorXf result(nlags + 1);
-			float var = Var(data);
-			for (int k = 0; k <= nlags; ++k) {
-				result(k) = (arry.head(n - k).array() * arry.tail(n - k).array()).sum() / (n - k) / var;
-			}
 
-			// 求和
-			float acfSum = result.sum();
-
-			return acfSum;
-		}
-
+	
 		/**
 		 * @brief 计算均值
-		 * @param signal 输入信号
+		 * @tparam T m模版数据类型
+		 * @param data 输入信号
 		 * @return 返回均值
 		*/
-		MJLib_DataProcess_API inline double Mean(std::vector<double>& data)
+		template<typename T>
+		MJLib_DataProcess_API inline T Mean(std::vector<T>& data)
 		{
-			Eigen::Map<Eigen::VectorXd> vec(data.data(), data.size());
-			return vec.mean();
+			std::cout << data.size() << std::endl;
+			Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> array(data.data(), data.size());
+			return array.mean();
 		}
 
 
@@ -51,13 +33,11 @@ namespace mjlib {
 		 * @param signal 输入信号
 		 * @return 返回均方根值
 		*/
-		MJLib_DataProcess_API inline double RMS(std::vector<double>& data)
+		template<typename T>
+		MJLib_DataProcess_API inline T RMS(std::vector<T>& data)
 		{
-			double sumOfSquares = 0.0;
-			for (double value : data) {
-				sumOfSquares += value * value;
-			}
-			return std::sqrt(sumOfSquares / data.size());
+			Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, 1>> array(data.data(), data.size());
+			return std::sqrt(array.squaredNorm() / array.size());
 		}
 
 
@@ -72,7 +52,7 @@ namespace mjlib {
 				return 0;
 			}
 			else {
-				Eigen::VectorXf arry = Eigen::Map<Eigen::VectorXd>(data.data(), data.size());
+				Eigen::VectorXd arry = Eigen::Map<Eigen::VectorXd>(data.data(), data.size());
 				double mean = arry.mean();
 				return (arry.array() - mean).square().sum() / (arry.size());;
 			}
@@ -96,7 +76,7 @@ namespace mjlib {
 		*/
 		MJLib_DataProcess_API inline double H(std::vector<double>& data)
 		{
-			std::map<float, int> counter;
+			std::map<double, int> counter;
 			int size = data.size();
 
 			// 统计每个元素的出现次数
@@ -109,7 +89,7 @@ namespace mjlib {
 				}
 			}
 			double entropy = 0.0;
-			float acfsum = 0.0;
+			double acfsum = 0.0;
 
 
 			// 计算每个元素的概率
@@ -124,6 +104,9 @@ namespace mjlib {
 
 			return acfsum;
 		}
+
+		
+
 
 		/**
 		 * @brief 峰峰值结果
@@ -142,8 +125,7 @@ namespace mjlib {
 		*/
 		MJLib_DataProcess_API inline PP_Data* PP(std::vector<double>& data)
 		{
-			Eigen::VectorXd vec;
-			EIGEN_MAP_VECTORXd(vec, data);
+			Eigen::Map<Eigen::VectorXd> vec(data.data(), data.size());
 			PP_Data* result = new PP_Data;
 			result->max = std::abs(vec.maxCoeff());
 			result->min = std::abs(vec.minCoeff());
@@ -210,6 +192,29 @@ namespace mjlib {
 		}
 
 
+
+		/**
+		 * @brief 时域自相关系数
+		 * @param signal 输入信号
+		 * @param nlags
+		 * @return 返回
+		*/
+		MJLib_DataProcess_API inline double ACFsum(std::vector<double>& data, int16_t nlags)
+		{
+			Eigen::Map<Eigen::VectorXd> arry(data.data(), data.size());
+			int n = arry.size();
+			Eigen::VectorXd result(nlags + 1);
+			auto var = Var(data);
+			for (int k = 0; k <= nlags; ++k) {
+				result(k) = (arry.head(n - k).array() * arry.tail(n - k).array()).sum() / (n - k) / var;
+			}
+
+			// 求和
+			double acfSum = result.sum();
+
+			return acfSum;
+		}
+
 		/**
 		 * @brief 通过计算每个数据点与数据集的中位数之间的绝对差异来计算MAD。这种方法可以帮助您找到可能存在的离群点，即与其他数据点相比差异很大的数据点。
 		 MAD的值越高，表示数据集的离散程度越大，也就是说离群点的可能性也就越大
@@ -230,6 +235,7 @@ namespace mjlib {
 		 * @param data 输入数据
 		 * @return 返回Z得分数组
 		*/
+		/*
 		MJLib_DataProcess_API inline std::vector<double> Z_Score(std::vector<double>& data)
 		{
 			std::vector<double> zScores;
@@ -242,7 +248,7 @@ namespace mjlib {
 			}
 
 		}
-
+		*/
 
 		/**
 		 * @brief 计算两个向量之间的欧式距离，欧几里得距离是指在欧几里得空间中两个点之间的直线距离，计算公式 d = √((x2 - x1)² + (y2 - y1)²)
@@ -250,13 +256,15 @@ namespace mjlib {
 		 * @param data2 计算距离数组2
 		 * @return 返回两数组之间的欧式距离
 		*/
+
+		/*
 		MJLib_DataProcess_API inline double ED(std::vector<double>& data1, std::vector<double>& data2)
 		{
 			Eigen::Map <Eigen::VectorXd> arry1(data1.data(), data1.size());
 			Eigen::Map <Eigen::VectorXd> arry2(data2.data(), data2.size());
 			return (arry1 - arry2).norm();
 		}
-
+		*/
 
 		/**
 		 * @brief 计算k距离
@@ -265,6 +273,7 @@ namespace mjlib {
 		 * @param k 表示要找出的最近邻点的数量
 		 * @return 返回第k近的距离
 		*/
+		/*
 		MJLib_DataProcess_API inline double K_Distance(std::vector<std::vector<double>>& data, std::vector<double>& point, int k)
 		{
 			std::vector<double> distances;
@@ -274,6 +283,8 @@ namespace mjlib {
 			std::sort(distances.begin(), distances.end());
 			return distances[k];
 		}
+		*/
+
 
 		/**
 		 * @brief 计算k领域
@@ -282,10 +293,12 @@ namespace mjlib {
 		 * @param k 表示要找出的最近邻点的数量
 		 * @return 返回k领域内的所有点的索引
 		*/
+
+		/*
 		MJLib_DataProcess_API inline std::vector<int> K_Neighborhood(std::vector<std::vector<double>>& data, std::vector<double>& point, int k)
 		{
 			std::vector<std::pair<double, int>> distances;
-			for (int i = 0; i < data.size(); ++i) {
+			for (size_t i = 0; i < data.size(); ++i) {
 				distances.push_back(std::make_pair(distance(data[i], point), i));  // 计算point与data中每个向量之间的距离，并将其与索引一起存储在distances向量中
 			}
 			std::sort(distances.begin(), distances.end());  // 对距离进行排序
@@ -296,6 +309,8 @@ namespace mjlib {
 			return neighborhood;  // 返回k领域内的所有点的索引
 		}
 
+		*/
+
 
 		/**
 		 * @brief 计算局部可达密度
@@ -304,6 +319,7 @@ namespace mjlib {
 		 * @param k 表示要找出的最近邻点的数量
 		 * @return 返回局部可达密度
 		*/
+		/*
 		MJLib_DataProcess_API inline double Local_Reachability_Density(std::vector<std::vector<double>>& data, std::vector<double>& point, int k)
 		{
 			auto k_distance = K_Distance(data, point, k);  // 计算point到数据集中第k近的点的距离
@@ -314,6 +330,8 @@ namespace mjlib {
 			}
 			return (k + 1) * k_distance / sum;  // 返回局部可达密度
 		}
+		*/
+
 
 		/**
 		 * @brief 计算局部异常因子
@@ -322,6 +340,8 @@ namespace mjlib {
 		 * @param k 表示要找出的最近邻点的数量
 		 * @return 返回局部异常因子
 		*/
+
+		/*
 		MJLib_DataProcess_API inline double Local_Outlier_Factor(std::vector<std::vector<double>>& data, std::vector<double>& point, int k)
 		{
 			auto neighborhood = K_Neighborhood(data, point, k);  // 确定point的k领域内的所有点的索引
@@ -331,12 +351,12 @@ namespace mjlib {
 			}
 			return sum / neighborhood.size() / Local_Reachability_Density(data, point, k);  // 返回局部异常因子
 		}
-
+		*/
 	}
 
 
 
-
+	
 
 	namespace dataclass {
 
@@ -386,14 +406,6 @@ namespace mjlib {
 		* 最后修改日期：
 		* 备注：
 		******************************************************************/
-
-
-		template<typename Data>
-		float Mean(const std::vector<float>& signal)
-		{
-			Eigen::Map vec(signal.data(), signal.size());
-			return vec.mean();
-		}
 
 
 
@@ -576,6 +588,6 @@ namespace mjlib {
 
 
 	}
-
+	
 
 }
