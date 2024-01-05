@@ -1,0 +1,5 @@
+Log file created at: 2024/05/06 15:00:14
+Running on machine: ZZX
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20240506 15:00:14.089922 33208 mjlib_log_api.cpp:12] shadasdasd

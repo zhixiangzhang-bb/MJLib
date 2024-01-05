@@ -5,12 +5,10 @@
 
 
 
-#include "mjlib_siemens_global.h"
+#include "mjlib_net_global.h"
 #include <vector>
 #include <algorithm>
-
-
-
+#include <snap7_libmain.h>
 
 namespace mjlib {
 
@@ -41,40 +39,7 @@ namespace mjlib {
 			TM=29//PLC 时间数据区域
 
 		};
-
-		/**
-		 * @brief 字节顺序
-		*/
-		enum ByteOrder
-		{
-			Big_Endian,//大端排序方法，西门子默认
-			Little_Endian//小端排序方法
-		};
-
-
-		/**
-		 * @brief 交换字节顺序，用于西门子
-		 * @tparam T 定义的模版数据
-		 * @param data 输入数据指针
-		 * @param len 输入数据长度
-		*/
-		template<typename T>
-		inline void SwapByte(T* data, int16_t len)
-		{
-			if (data == nullptr)
-			{
-				return;
-			}
-			const int16_t size = sizeof(T);
-			unsigned char bytes[size];
-			for (size_t i = 0; i < len; i++)
-			{
-				std::memcpy(bytes, &data[i], size);
-				std::reverse(std::begin(bytes), std::end(bytes));
-				std::memcpy(&data[i], bytes, size);
-			}
-
-		}
+		
 
 
 		/**
@@ -104,7 +69,9 @@ namespace mjlib {
 
 			Client();
 
-			Client(const char* Address, word LocalTSAP, word RemoteTSAP);
+			Client(const char* Address, uint16_t TSAP);
+
+			Client(const char* Address, uint16_t Rack, uint16_t Slot);
 
 			~Client();
 
@@ -128,7 +95,7 @@ namespace mjlib {
 			 * @param Size 长度
 			 * @return 返回单精度浮点
 			*/
-			std::vector<float> Read_Float(DataArea Area,int DBNumber, int Start, int Size, ByteOrder Order);
+			int32_t Read_Float(DataArea Area, int DBNumber, int Start, int Size, net::ByteOrder Order, std::vector<float>& result);
 
 			/**
 			 * @brief DB数据块读取数据
@@ -137,7 +104,7 @@ namespace mjlib {
 			 * @param Size 长度
 			 * @return 返回32位整数
 			*/
-			std::vector<int32_t> Read_Int32(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order);
+			int32_t Read_Int32(DataArea Area, int DBNumber, int Start, int Size, net::ByteOrder Order, std::vector<int32_t>& result);
 
 			/**
 			 * @brief DB数据块读取数据
@@ -146,9 +113,38 @@ namespace mjlib {
 			 * @param Size 长度
 			 * @return 返回16位整数
 			*/
-			std::vector<int16_t> Read_Int16(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order);
+			int16_t Read_Int16(DataArea Area, int DBNumber, int Start, int Size, net::ByteOrder Order, std::vector<int16_t>& result);
 
-	
+			/**
+			 * @brief DB数据块读取数据字节
+			 * @param Area 读取区域
+			 * @param DBNumber DB块编号
+			 * @param Start 启始地址
+			 * @param Size 长度
+			 * @param Order 字节顺序
+			 * @return 返回字节数组
+			*/
+			int32_t Read_Byte(DataArea Area, int DBNumber, int Start, int Size, net::ByteOrder Order, std::vector<int8_t>& result);
+
+
+			template<typename T>
+			std::vector<T> ReadData(DataArea Area, int DBNumber, int Start, int Size, int length, net::ByteOrder Order)
+			{
+				switch (Size)
+				{
+				case 1:
+					int8_t * data = new int8_t[Size];
+					Cli_ReadArea(Simens_Cilent, Area, DBNumber, Start, Size, S7WLWord, data);
+					if (Order == net::Big_Endian) {
+						net::SwapByte(data, Size);
+					}
+					std::vector<int8_t> result(data, data + Size);
+					return result;
+				default:
+					break;
+				}
+			}
+
 			/**
 			 * @brief 写入PLC数据
 			 * @tparam T 模版数据
@@ -161,31 +157,36 @@ namespace mjlib {
 			 * @return 返回是否写入成功状态
 			*/
 			template<typename T>
-			int16_t Write(DataArea Area, int DBNumber, int Start, int Size, ByteOrder Order, T* pUsrData)
+			int16_t Write(DataArea Area, int DBNumber, int Start, int Size, net::ByteOrder Order, T* pUsrData)
 			{
-				int16_t len = sizeof(T);
-				if (Order == Big_Endian) {
+				//先判断是否在连接
+				if (GetPlcConnect() == 0) {
+					return -1;
+				}
 
-					SwapByte(pUsrData, Size);
+				int16_t len = sizeof(T);
+				if (Order == net::Big_Endian) {
+
+					net::SwapByte(pUsrData, Size);
 				}
 				return Cli_WriteArea(Simens_Cilent, Area, DBNumber, Start, Size* len, S7WLByte, pUsrData);
 			}
 
 
 			/**
-			 * @brief PLC热启动
+			 * @brief PLC热启动，暂时不能用
 			 * @return 返回启动状态
 			*/
 			int16_t PlcHotStart();
 
 			/**
-			 * @brief PLC冷启动
+			 * @brief PLC冷启动，暂时不能用
 			 * @return 返回执行状态
 			*/
 			int16_t PlcColdStart();
 
 			/**
-			 * @brief PLC停止
+			 * @brief PLC停止，暂时不能用
 			 * @return 返回执行状态
 			*/
 			int16_t PlcStop();
@@ -196,7 +197,13 @@ namespace mjlib {
 			*/
 			int16_t SetIpAddress(const char* ip);
 
-
+			/**
+			 * @brief 设置机架和槽
+			 * @param Rack 机架号
+			 * @param Slot 槽号
+			 * @return 返回是否设置成功
+			*/
+			int16_t SetRack(uint16_t Rack,uint16_t Slot);
 
 
 			/*****************************************************************
@@ -207,7 +214,7 @@ namespace mjlib {
 			 * @brief 获取与PLC连接状态
 			 * @return 返回连接状态
 			*/
-			int32_t GetPlcConnect();
+			inline int32_t GetPlcConnect();
 
 			/**
 			 * @brief 获取PLC的状态
@@ -225,7 +232,7 @@ namespace mjlib {
 		private:
 			//西门子PLC连接服务器
 			S7Object Simens_Cilent;
-			
+
 			//IP地址
 			const char* Address;
 

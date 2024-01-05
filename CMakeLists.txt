@@ -21,27 +21,31 @@ project ("MJLib")
 
 
 #添加子库
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Siemens)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Net)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_CNN)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_DataProcess)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_FileIO)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_SVM)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Vision)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Camera)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/MJLib_Log)
+include_directories(${CMAKE_SOURCE_DIR}/src/MJLIB_DataProcess/include)
 
 #包含头文件
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty/Eigen)
-include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_CNN)
+#include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_CNN)
 include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_DataProcess)
 include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_FileIO)
 include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_SVM)
 include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_Vision)
+include_directories(${CMAKE_SOURCE_DIR}/src/MJLib_Net)
 
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/snap7/core)
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/snap7/lib)
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/snap7/sys)
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/snap7)
 
-
-
-
+include_directories(${CMAKE_SOURCE_DIR}/3rdparty/FFTW/include)
 
 add_executable (${PROJECT_NAME} 
 		${CMAKE_CURRENT_SOURCE_DIR}/src/Test.cpp
@@ -55,12 +59,12 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 
 
-target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_CNN)
+#target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_CNN)
 target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_DataProcess)
 target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_FileIO)
 target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_SVM)
 target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_Vision)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE  MJLib_Net)
 
 
 
