@@ -34,7 +34,6 @@ if(MSVC)
 endif()
 
 
-
 # 将源代码添加到此项目的可执行文件。
 	add_library (${PROJECT_NAME}  SHARED
 		mjlib_dataprocess_global.h
